@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChatGPT</title>
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+  <link href='prism.css' rel='stylesheet' type='text/css'/>
+  <link rel="stylesheet" href="./bounce.css">
+  <script src='prism.js' type='text/javascript'></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+</head>
+<body>
+  <div class="chat_container">
+    <div id="chatRoom" class="chat_message">
+      <!-- Chat messages will be dynamically added here -->
+    </div>
+    <!-- Loading animation container -->
+    <div class="chat_input">
+      <textarea id="messageInput" class="sendMsg" placeholder="請輸入訊息..."></textarea>
+      <button onclick="sendMessage()">
+        <i class="fas fa-paper-plane"></i>
+      </button> 
+    </div>
+  </div>
+  <script src="./webChat.js"></script>
+</body>
+</html>
