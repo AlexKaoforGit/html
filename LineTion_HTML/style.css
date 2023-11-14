@@ -5,6 +5,21 @@
     box-sizing: border-box;
   }
   
+  /* 重置列表元素的样式 */
+  ol, ul, pre {
+    margin: 0; /* 移除默认外边距 */
+    padding: 0; /* 移除默认内边距 */
+    white-space: pre-wrap; /* 对 <pre> 允许自动换行 */
+    word-break: break-word; /* 允许单词在达到边界时自动换行 */
+    overflow-wrap: break-word; /* 确保长单词能自动换行 */
+  }
+
+  /* 针对对话框中的列表元素的样式 */
+  .message-text ol, 
+  .message-text ul {
+    padding-left: 20px; /* 给列表一些内边距以形成列表的常见缩进效果 */
+  }
+
   /* Set full height on html and body elements */
   html, body {
     height: 100%;
@@ -127,10 +142,12 @@
   }
 
   .message-text {
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-wrap: break-word;
     margin: 5px 0;
     padding: 10px 15px;
     border-radius: 15px;
     max-width: 80%;
-    word-wrap: break-word;
     box-shadow: 0 1px 1px rgba(0,0,0,0.1);
   }

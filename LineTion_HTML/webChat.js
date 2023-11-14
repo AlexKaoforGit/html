@@ -38,9 +38,6 @@ async function sendMessage() {
     chatContainer.appendChild(tempBotMessageDiv);
     
     chatContainer.scrollTop = chatContainer.scrollHeight;
-
-    // Show loading animation
-    // document.getElementById('loader').style.display = 'block';
     
     try {
         // Send message to your backend
