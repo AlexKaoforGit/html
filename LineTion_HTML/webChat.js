@@ -50,7 +50,12 @@ async function sendMessage() {
         });
         // Assume backend returns response in JSON format
         const responseData = await response.json();
-        let response_message = marked.parse(responseData.reply);
+        // Parse the JSON string
+        let parsedJson = JSON.parse(responseData);
+        // Access the mdcontent property
+        let mdcontent = parsedJson.mdcontent;
+
+        let response_message = marked.parse(mdcontent);
 
         // Create the actual bot message and replace the temporary one
         const botMessageDiv = document.createElement('div');
