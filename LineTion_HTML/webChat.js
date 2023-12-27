@@ -92,7 +92,16 @@ function escapeHtml(html) {
 let encryptedUserId = null;
 document.addEventListener('DOMContentLoaded', function() {
     const urlParams = new URLSearchParams(window.location.search);
-    encryptedUserId = urlParams.get('userid');
+    const liffState = urlParams.get('liff.state');
+
+    if (liffState) {
+        // 对 liff.state 的值进行解码
+        const decodedLiffState = decodeURIComponent(liffState);
+
+        // 使用 URLSearchParams 来解析解码后的 liff.state 值
+        const liffStateParams = new URLSearchParams(decodedLiffState);
+        encryptedUserId = liffStateParams.get('userid');
+    }
 
     const sendButton = document.querySelector('.send_icon');
     if (sendButton) {
