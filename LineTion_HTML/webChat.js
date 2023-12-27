@@ -1,5 +1,7 @@
 async function sendMessage() {
     const input = document.getElementById('messageInput');
+    
+
     let message = input.value;
     if (!message.trim()) return; // Don't send empty messages
     input.value = ''; // Clear input field
@@ -38,24 +40,22 @@ async function sendMessage() {
     chatContainer.appendChild(tempBotMessageDiv);
     
     chatContainer.scrollTop = chatContainer.scrollHeight;
+
+    // Show loading animation
+    // document.getElementById('loader').style.display = 'block';
     
     try {
         // Send message to your backend
-        const response = await fetch('https://12ac-211-72-238-168.ngrok-free.app/chat', {
+        const response = await fetch('https://89c5-111-241-70-214.ngrok-free.app/chat', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ message: message })
+            body: JSON.stringify({ message: message, encryptedUserId: encryptedUserId })
         });
         // Assume backend returns response in JSON format
         const responseData = await response.json();
-        // Parse the JSON string
-        let parsedJson = JSON.parse(responseData);
-        // Access the mdcontent property
-        let mdcontent = parsedJson.mdcontent;
-
-        let response_message = marked.parse(mdcontent);
+        let response_message = marked.parse(responseData.reply);
 
         // Create the actual bot message and replace the temporary one
         const botMessageDiv = document.createElement('div');
@@ -87,9 +87,13 @@ function escapeHtml(html) {
       .replace(/"/g, "&quot;")
       .replace(/'/g, "&#039;");
 }
-  
+
 // Ensure the event handler is bound after the document has loaded
+let encryptedUserId = null;
 document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    encryptedUserId = urlParams.get('userid');
+
     const sendButton = document.querySelector('.send_icon');
     if (sendButton) {
         sendButton.addEventListener('click', sendMessage);
