@@ -5,149 +5,253 @@
     box-sizing: border-box;
   }
   
-  /* 重置列表元素的样式 */
-  ol, ul, pre {
-    margin: 0; /* 移除默认外边距 */
-    padding: 0; /* 移除默认内边距 */
-    white-space: pre-wrap; /* 对 <pre> 允许自动换行 */
-    word-break: break-word; /* 允许单词在达到边界时自动换行 */
-    overflow-wrap: break-word; /* 确保长单词能自动换行 */
-  }
+/* 重置列表元素的样式 */
+ol, ul, pre {
+  margin: 0; /* 移除默认外边距 */
+  padding: 0; /* 移除默认内边距 */
+  white-space: pre-wrap; /* 对 <pre> 允许自动换行 */
+  word-break: break-word; /* 允许单词在达到边界时自动换行 */
+  overflow-wrap: break-word; /* 确保长单词能自动换行 */
+}
+/* 针对对话框中的列表元素的样式 */
+.message-text ol, 
+.message-text ul {
+  padding-left: 20px; /* 给列表一些内边距以形成列表的常见缩进效果 */
+}
+/* Set full height on html and body elements */
+html, body {
+  height: 100%;
+  width: 100%;
+  font-family: Arial, sans-serif;
+}
+/* Style the chat container */
+.chat_container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #B9DBE1FF;
+}
+/* Style the chat message area */
+.chat_message {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Increase spacing between messages */
+}
 
-  /* 针对对话框中的列表元素的样式 */
-  .message-text ol, 
-  .message-text ul {
-    padding-left: 20px; /* 给列表一些内边距以形成列表的常见缩进效果 */
-  }
+/* Style the chat input area */
+.chat_input {
+  display: flex;
+  padding: 10px;
+  background-color: white;
+}
 
-  /* Set full height on html and body elements */
-  html, body {
-    height: 100%;
-    width: 100%;
-    font-family: Arial, sans-serif;
-  }
-  
-  /* Style the chat container */
-  .chat_container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    background-color: #B9DBE1FF;
-  }
-  
-  /* Style the chat message area */
-  .chat_message {
-    flex-grow: 1;
-    overflow-y: auto;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px; /* Increase spacing between messages */
-  }
-  
-  /* Style the chat input area */
-  .chat_input {
-    display: flex;
-    padding: 10px;
-    background-color: white;
-  }
-  
-  /* Style the message input */
-  .sendMsg {
-    flex-grow: 1;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 10px;
-    font-size: 16px;
-    margin-right: 10px;
-    resize: none; /* Prevent resizing */
-  }
-  
-  /* Style the send button */
-  button {
-    padding: 10px 15px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
+/* Style the message input */
+.sendMsg {
+  flex-grow: 1;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 16px;
+  margin-right: 10px;
+  resize: none; /* Prevent resizing */
+}
 
-  button:focus {
-    outline: none;
-  }
-  
-  button:active {
-    background-color: #0056b3;
-  }
-  
-  /* Style adjustments for icon and message rows */
-  .fas.fa-paper-plane {
-    font-size: 24px;
-  }
-  
-  .message_row {
-    display: flex;
-    align-items: flex-start; /* Align items to the top */
-    margin-bottom: 10px;
-  }
+/* Style the send button */
+button {
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+button:focus {
+  outline: none;
+}
 
-  /* Style the avatar and username container */
-  .avatar-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-right: 10px;
-  }
-  
-  /* Style for avatar */
-  .head {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-  
-  /* Style for username */
-  .user-name {
-    font-size: 12px;
-    color: #666;
-    margin-top: 4px;
-  }
-  
-  /* Style the message container */
-  .message-content {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-  }
-  
-  .you-message {
-    justify-content: flex-start;
-  }
-  
-  .other-message {
-    justify-content: flex-start;
-  }
-  
-  .you-message .message-text {
-    background-color: #e7f3fe;
-    color: #333;
-  }
+button:active {
+  background-color: #0056b3;
+}
 
-  .other-message .message-text {
-    background-color: #d1e7dd;
-    color: #333;
-  }
+/* Style adjustments for icon and message rows */
+.fas.fa-paper-plane {
+  font-size: 24px;
+}
 
-  .message-text {
-    white-space: pre-wrap;
-    word-break: break-word;
-    overflow-wrap: break-word;
-    margin: 5px 0;
-    padding: 10px 15px;
-    border-radius: 15px;
-    max-width: 80%;
-    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
-  }
+.message_row {
+  display: flex;
+  align-items: flex-start; /* Align items to the top */
+  margin-bottom: 10px;
+}
+/* Style the avatar and username container */
+.avatar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 10px;
+}
+
+/* Style for avatar */
+.head {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Style for username */
+.user-name {
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
+}
+
+/* Style the message container */
+.message-content {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.you-message {
+  justify-content: flex-start;
+}
+
+.other-message {
+  justify-content: flex-start;
+}
+
+.you-message .message-text {
+  background-color: #e7f3fe;
+  color: #333;
+}
+.other-message .message-text {
+  background-color: #d1e7dd;
+  color: #333;
+}
+.message-text {
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  margin: 5px 0;
+  padding: 10px 15px;
+  border-radius: 15px;
+  max-width: 80%;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+}
+.insertNotion {
+  /* 设置按钮内部的布局，以便图标和文本水平排列 */
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s, color 0.3s;
+  /* 设置背景图标的大小和位置 */
+  background: none;
+  /* background-size: 20px 20px; /* 根据您的图标大小调整 */
+  padding-left: 25px; /* 留出足够的空间显示图标 */
+  /* 添加按钮的内边距，确保文本和图标有足够的间隔 */
+  padding: 5px 25px; /* 上下 5px，左右 10px，可以根据需要调整 */
+  border: none;
+  cursor: pointer;
+}
+.insertNotion .notion-icon {
+  /* 为图标设置样式 */
+  width: 20px; /* 根据您的图标大小调整 */
+  height: 20px; /* 根据您的图标大小调整 */
+  margin-right: 5px; /* 在图标和文本之间添加一些间隔 */
+}
+.insertNotion:hover .notion-icon {
+  /* 鼠标悬浮时仅图标变暗 */
+  filter: brightness(0.75);
+}
+.insertNotion span {
+  /* 文本样式 */
+  font-size: 12px;
+  color: #333;
+}
+.insertNotion:hover span {
+  /* 鼠标悬浮时文本变暗 */
+  color: #808080;
+}
+button:disabled {
+  color: #ccc; /* 变更文字颜色 */
+  background-color: #eee; /* 变更背景颜色 */
+  border: 1px solid #ddd; /* 变更边框颜色 */
+  cursor: not-allowed; /* 更改鼠标光标样式 */
+}
+ 
+.top-bar {
+  display: flex;             /* 弹性盒布局 */
+  align-items: center;       /* 垂直居中 */
+  background-color: #95CACA; /* 背景颜色 */
+  padding: 10px;             /* 内边距 */
+}
+
+.status-selector select {
+  background-color: #f8f8f8; /* 浅灰色背景 */
+  border: 1px solid #ddd;    /* 边框 */
+  border-radius: 4px;        /* 圆角 */
+  padding: 5px 10px;         /* 内边距 */
+  margin: 0 5px;             /* 外边距 */
+  font-size: 16px;           /* 文字大小 */
+  color: #333;               /* 文字颜色 */
+}
+
+.status-selector select:hover {
+  border-color: #bbb;        /* 鼠标悬浮时边框颜色变化 */
+}
+
+.status-selector label {
+  font-size: 16px;           /* 字体大小 */
+  color: #333;               /* 字体颜色 */
+  margin-right: 10px;        /* 右边距 */
+  font-weight: bold;         /* 字体加粗 */
+}
+
+.status-selector {
+  display: flex;
+  align-items: center;
+}
+
+.status-indicator {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin-left: 10px;
+}
+
+.status-indicator.loading {
+  border: 3px solid #f3f3f3; /* 轻色边框 */
+  border-top: 3px solid #3498db; /* 蓝色边框，表示加载中 */
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.status-indicator {
+  transition: background-color 0.3s ease-in-out;
+}
+
+.status-indicator.success {
+  background-color: #28a745;
+  width: 15px;
+  height: 15px;
+}
+
+.status-indicator.failure {
+  background-color: #dc3545;
+  width: 15px;
+  height: 15px;
+}
+

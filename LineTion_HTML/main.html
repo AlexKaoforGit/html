@@ -15,13 +15,28 @@
 </head>
 <body>
   <div class="chat_container">
+    <div class="top-bar">
+      <div class="status-selector">
+        <label for="status">Programming Language：</label>
+        <select id="status" onchange="sendStatusToBackend(this.value)">
+          <option value="Python">Python</option>
+          <option value="C#">C#</option>
+          <option value="JavaScript">JavaScript</option>
+          <option value="SQL">SQL</option>
+          <option value="Flutter">Flutter</option>
+          <option value="React">React</option>
+        </select>
+        <div id="statusIndicator" class="status-indicator success"></div>
+      </div>
+    </div>
+    
     <div id="chatRoom" class="chat_message">
       <!-- Chat messages will be dynamically added here -->
     </div>
     <!-- Loading animation container -->
     <div class="chat_input">
       <textarea id="messageInput" class="sendMsg" placeholder="請輸入訊息..."></textarea>
-      <button onclick="sendMessage()">
+      <button id="sending-button" onclick="sendMessage()">
         <i class="fas fa-paper-plane"></i>
       </button> 
     </div>
