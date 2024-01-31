@@ -77,7 +77,7 @@ export async function sendMessage() {
                 <div class="user-name">小狸</div>
             </div>
             <div class="message-text" ${!message_id ? 'style="display: flex;"' : ''} >${response_message}
-                ${message_id ? `<button class="send-button insertNotion" onclick="ImportToNotion('${message_id}')">
+                ${message_id ? `<button class="send-button insertNotion" data-message-id="${message_id}">
                 <img src="images/notion.png" alt="Notion icon" class="notion-icon">
                 <span style="text-decoration: underline;">Click to import Notion</span>
                 </button>` : ''}
