@@ -5,9 +5,15 @@ export async function ImportToNotion(messageId){
     try{
         const encryptedUserId = getEncryptedUserId();
         const notionButton = document.querySelector(`[data-message-id="${messageId}"]`);
+        const loadingIndicator = document.createElement('span');
+        loadingIndicator.className = 'loading-icon';
+        loadingIndicator.style.marginLeft = '10px';
+        
         if (notionButton) {
-            notionButton.classList.add('disabled');
+            notionButton.disabled = true;
+            notionButton.appendChild(loadingIndicator);
         }
+        
         // Send messageId to your backend
         const response = await fetch(`${config.apiUrl}/importnotion`, {
             method: 'POST',
@@ -21,6 +27,8 @@ export async function ImportToNotion(messageId){
         const responseData = await response.json();
         let status = responseData.result;
 
+        loadingIndicator.remove();
+
         if (status == "success") {
             if (notionButton) {
                 notionButton.innerHTML = `
@@ -33,7 +41,7 @@ export async function ImportToNotion(messageId){
             <img src="images/notion.png" alt="Notion icon" class="notion-icon">
             <span style="text-decoration: underline;">Click to try it again.</span>
             `;
-            notionButton.classList.remove('disabled');
+            notionButton.disabled = false;
         }
     } catch (error) {
         console.error('Error:', error);

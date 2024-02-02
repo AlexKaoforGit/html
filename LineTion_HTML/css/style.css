@@ -255,3 +255,23 @@ button:disabled {
   height: 15px;
 }
 
+.loading-icon {
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #3498db;
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+button.insertNotion:disabled {
+  color: #ccc; /* 变更文字颜色 */
+  background-color: transparent; /* 变更背景颜色 */
+  border: none; /* 对这个按钮移除边框 */
+  cursor: default;
+}

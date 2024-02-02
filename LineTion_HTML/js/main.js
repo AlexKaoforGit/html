@@ -38,8 +38,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     await fetchUserState();
 
     document.body.addEventListener('click', function(event) {
-        if (event.target.classList.contains('insertNotion')) {
-            const messageId = event.target.getAttribute('data-message-id');
+        let targetElement = event.target;
+        while (targetElement != null) {
+            if (targetElement.disabled) {
+                event.stopPropagation();
+                return;
+            }
+            if (targetElement.classList.contains('insertNotion')) {
+                break;
+            }
+            targetElement = targetElement.parentElement;
+        }
+        if (targetElement != null && targetElement.classList.contains('insertNotion')) {
+            const messageId = targetElement.getAttribute('data-message-id');
             ImportToNotion(messageId);
         }
     });

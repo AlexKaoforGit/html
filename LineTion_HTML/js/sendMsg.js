@@ -44,9 +44,11 @@ export async function sendMessage() {
 
     var button = document.getElementById('sending-button');
     var status_selector = document.getElementById('status');
+    const messageInput = document.getElementById('messageInput');
 
     button.disabled = true;
     status_selector.disabled = true;
+    messageInput.disabled = true;
 
     // Show loading animation
     // document.getElementById('loader').style.display = 'block';
@@ -89,12 +91,10 @@ export async function sendMessage() {
         Prism.highlightAll();
         chatContainer.scrollTop = chatContainer.scrollHeight;
         
-        if (!message_id) {
-            button.disabled = true;
-            status_selector.disabled = true;
-        } else {
+        if (message_id) {
             button.disabled = false;
             status_selector.disabled = false;
+            messageInput.disabled = false;
         }        
     } catch (error) {
             console.error('Error:', error);
