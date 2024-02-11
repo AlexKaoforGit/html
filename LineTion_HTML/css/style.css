@@ -148,7 +148,7 @@ button:active {
   margin: 5px 0;
   padding: 10px 15px;
   border-radius: 15px;
-  max-width: 80%;
+  max-width: 100%;
   box-shadow: 0 1px 1px rgba(0,0,0,0.1);
 }
 
