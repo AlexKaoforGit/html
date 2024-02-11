@@ -4,29 +4,61 @@ import { getEncryptedUserId } from './eventHandlers.js';
 
 export async function sendMessage() {
     const input = document.getElementById('messageInput');
-    let message = input.value;
-    if (!message.trim()) return; // Don't send empty messages
-    input.value = ''; // Clear input field
+    let message = input.value.trim();
+    if (!message) return;
+    input.value = '';
     message = escapeHtml(message);
 
-    // Immediately show user message
     const chatContainer = document.getElementById('chatRoom');
+    createUserMessageDiv(message, chatContainer);
+    const tempBotMessageDiv = createBotMessageDiv(chatContainer);
+    toggleElementsDisabled(true); // Disable elements while sending
 
-    const userMessageDiv = document.createElement('div');
-    userMessageDiv.className = 'message_row you-message';
-    userMessageDiv.innerHTML = `
+    try {
+        const response = await sendToBackend(message);
+        onResponse(response, tempBotMessageDiv, chatContainer);
+    } catch (error) {
+        console.error('Error:', error);
+    } finally {
+        toggleElementsDisabled(false); // Re-enable elements
+    }
+}
+
+function nowTimeStamp() {
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const formattedTime = `${hours}:${minutes}`;
+    return formattedTime
+}
+
+function toggleElementsDisabled(disabled) {
+    document.getElementById('sending-button').disabled = disabled;
+    document.getElementById('status').disabled = disabled;
+    document.getElementById('messageInput').disabled = disabled;
+}
+
+function createUserMessageDiv(message, container) {
+    const formattedTime = nowTimeStamp()
+    const div = document.createElement('div');
+    div.className = 'message_row you-message';
+    div.innerHTML = `
         <div class="avatar-container">
             <img class="head" src="images/user.png" alt="You">
             <div class="user-name">You</div>
         </div>
-        <pre class="message-text">${message}</pre>
+        <div class="message-content">
+            <pre class="message-text">${message}</pre>
+            <div class="timestamp">${formattedTime}</div>
+        </div>
     `;
-    chatContainer.appendChild(userMessageDiv);
+    container.appendChild(div);
+}
 
-    // Show loading animation inside the other-message
-    const tempBotMessageDiv = document.createElement('div');
-    tempBotMessageDiv.className = 'message_row other-message';
-    tempBotMessageDiv.innerHTML = `
+function createBotMessageDiv(container) {
+    const div = document.createElement('div');
+    div.className = 'message_row other-message';
+    div.innerHTML = `
         <div class="avatar-container">
             <img class="head" src="images/大頭貼.png" alt="ChatGPT">
             <div class="user-name">小狸</div>
@@ -39,64 +71,50 @@ export async function sendMessage() {
             </div>
         </div>
     `;
-    chatContainer.appendChild(tempBotMessageDiv);
-    chatContainer.scrollTop = chatContainer.scrollHeight;
+    container.appendChild(div);
+    container.scrollTop = container.scrollHeight;
+    return div;
+}
 
-    var button = document.getElementById('sending-button');
-    var status_selector = document.getElementById('status');
-    const messageInput = document.getElementById('messageInput');
+async function sendToBackend(message) {
+    const encryptedUserId = getEncryptedUserId();
+    const response = await fetch(`${config.apiUrl}/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: message, encryptedUserId: encryptedUserId })
+    });
+    return response.json();
+}
 
-    button.disabled = true;
-    status_selector.disabled = true;
-    messageInput.disabled = true;
+function onResponse(responseData, tempDiv, container) {
+    const formattedTime = nowTimeStamp()
+    let response_message = marked.parse(responseData.reply);
+    let message_id = responseData.message_id;
 
-    // Show loading animation
-    // document.getElementById('loader').style.display = 'block';
+    // Create the actual bot message and replace the temporary one
+    const botMessageDiv = document.createElement('div');
+    botMessageDiv.className = 'message_row other-message';
+    botMessageDiv.style.position = 'relative';
     
-    try {
-        const encryptedUserId = getEncryptedUserId();
-        // Send message to your backend
-        const response = await fetch(`${config.apiUrl}/chat`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ message: message, encryptedUserId: encryptedUserId })
-        });
-        // Assume backend returns response in JSON format
-        const responseData = await response.json();
-        let response_message = marked.parse(responseData.reply);
-        let message_id = responseData.message_id;
-
-        // Create the actual bot message and replace the temporary one
-        const botMessageDiv = document.createElement('div');
-        botMessageDiv.className = 'message_row other-message';
-        botMessageDiv.style.position = 'relative';
-        
-        botMessageDiv.innerHTML = `
-            <div class="avatar-container">
-                <img class="head" src="images/大頭貼.png" alt="ChatGPT">
-                <div class="user-name">小狸</div>
-            </div>
+    botMessageDiv.innerHTML = `
+        <div class="avatar-container">
+            <img class="head" src="images/大頭貼.png" alt="ChatGPT">
+            <div class="user-name">小狸</div>
+        </div>
+        <div class="message-content">
             <div class="message-text" ${!message_id ? 'style="display: flex;"' : ''} >${response_message}
                 ${message_id ? `<button class="send-button insertNotion" data-message-id="${message_id}">
                 <img src="images/notion.png" alt="Notion icon" class="notion-icon">
                 <span style="text-decoration: underline;">Click to import Notion</span>
                 </button>` : ''}
-            </div>           
-        `;
+            </div>
+            <div class="timestamp">${formattedTime}</div>
+        </div>
+    `;
 
-        // Replace the bot message with the loading animation
-        chatContainer.replaceChild(botMessageDiv, tempBotMessageDiv);     
-        Prism.highlightAll();
-        chatContainer.scrollTop = chatContainer.scrollHeight;
-        
-        if (message_id) {
-            button.disabled = false;
-            status_selector.disabled = false;
-            messageInput.disabled = false;
-        }        
-    } catch (error) {
-            console.error('Error:', error);
-    }
+    // Replace the bot message with the loading animation
+    container.replaceChild(botMessageDiv, tempDiv);     
+    Prism.highlightAll();
+    container.scrollTop = container.scrollHeight;
+
 }
