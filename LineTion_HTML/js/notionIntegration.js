@@ -45,6 +45,11 @@ export async function ImportToNotion(messageId){
         }
     } catch (error) {
         console.error('Error:', error);
+        notionButton.innerHTML = `
+        <img src="images/notion.png" alt="Notion icon" class="notion-icon">
+        <span style="text-decoration: underline;">Click to try it again.</span>
+        `;
+        notionButton.disabled = false;
     }
 
 }
